@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bus Attendance — Browser Prototype</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Face API -->
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+
+  <!-- EmailJS (no backend needed) -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    // Initialize EmailJS with YOUR public key
+    (function(){
+      emailjs.init("_1YgezRgxXH0NxvS-");
+    })();
+  </script>
+
+  <!-- App code -->
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Bus Attendance Prototype</h1>
+      <nav>
+        <button id="tabRegister" class="active">Register</button>
+        <button id="tabRecognize">Recognize</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- REGISTER -->
+      <section id="registerSection" class="panel">
+        <div class="left">
+          <video id="regVideo" autoplay muted playsinline></video>
+          <canvas id="regCanvas" class="hidden"></canvas>
+          <div class="controls">
+            <input id="regName" placeholder="Name" />
+            <input id="regEmail" placeholder="Parent Email (for alerts)" />
+            <select id="regFee">
+              <option value="Paid">Paid</option>
+              <option value="Unpaid">Unpaid</option>
+            </select>
+            <button id="captureBtn">Capture & Register</button>
+          </div>
+          <div id="regMsg" class="muted"></div>
+        </div>
+
+        <div class="right">
+          <h3>Registered People</h3>
+          <ul id="registeredList"></ul>
+          <button id="clearAll">Clear All</button>
+        </div>
+      </section>
+
+      <!-- RECOGNIZE -->
+      <section id="recognizeSection" class="panel hidden">
+        <div class="left">
+          <video id="recVideo" autoplay muted playsinline></video>
+        </div>
+
+        <div class="right">
+          <canvas id="recOverlay"></canvas>
+          <div id="alertBox" class="alert hidden"></div>
+          <div class="controls">
+            <button id="startRec">Start</button>
+            <button id="stopRec">Stop</button>
+            <label>Interval:
+              <select id="recInterval">
+                <option value="1000">1s</option>
+                <option value="2000" selected>2s</option>
+                <option value="3000">3s</option>
+              </select>
+            </label>
+          </div>
+          <h3>Recognition Log</h3>
+          <ul id="logList"></ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <audio id="beep" src="alarm.wav" preload="auto"></audio>
+</body>
+</html>
